@@ -18,7 +18,9 @@
 -(void)setContextMenuIsPrimary:(BOOL)primary{
 	if (self.controlType == 3){
 		%orig(NO);
-		[self addTarget:self action:@selector(audioRoutesButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+		if (![self actionsForTarget:self forControlEvent:UIControlEventTouchUpInside]){
+			[self addTarget:self action:@selector(audioRoutesButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+		}
 		return;
 	}
 	%orig(primary);
@@ -31,6 +33,7 @@
 		
 		if (!callCenter.routeController.routeForSpeakerEnable && !callCenter.routeController.routeForSpeakerDisable){
 			[(PHAudioCallViewController *)(((PHAudioCallControlsViewController *)(((PHAudioCallControlsView *)(self.menuDataSource)).delegate)).delegate) revealAudioRoutingDeviceListAnimated:YES];
+			return;
 		}
 		
 		if (!callCenter.routeController.pickedRoute.speaker){

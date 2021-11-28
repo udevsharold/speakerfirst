@@ -1,6 +1,6 @@
 Package: com.udevs.speakerfirst
 Name: SpeakerFirst
-Version: 1.0.0
+Version: 1.0.1
 Architecture: iphoneos-arm
 Description: Activates speaker on tap in Phone.app
 Maintainer: udevs
