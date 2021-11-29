@@ -1,5 +1,5 @@
 # SpeakerFirst
-Invert Phone or Facetime app's default "Audio" button to 
+Invert Phone or Facetime app's default "Audio" button behaviour to 
 
 - activates speaker on tap and;
 - activates menu long press
