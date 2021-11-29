@@ -18,7 +18,8 @@
 -(void)setContextMenuIsPrimary:(BOOL)primary{
 	if (self.controlType == 3){
 		%orig(NO);
-		if (![self actionsForTarget:self forControlEvent:UIControlEventTouchUpInside]){
+		if (![[self actionsForTarget:self forControlEvent:UIControlEventTouchUpInside] containsObject:@"audioRoutesButtonTapped:"]){
+			[self removeTarget:nil action:nil forControlEvents:UIControlEventAllEvents];
 			[self addTarget:self action:@selector(audioRoutesButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 		}
 		return;
@@ -32,14 +33,17 @@
 		TUCallCenter *callCenter = [%c(TUCallCenter) sharedInstance];
 		
 		if (!callCenter.routeController.routeForSpeakerEnable && !callCenter.routeController.routeForSpeakerDisable){
-			[(PHAudioCallViewController *)(((PHAudioCallControlsViewController *)(((PHAudioCallControlsView *)(self.menuDataSource)).delegate)).delegate) revealAudioRoutingDeviceListAnimated:YES];
+			PHAudioCallViewController *callViewController = ((PHAudioCallControlsViewController *)(((PHAudioCallControlsView *)(self.menuDataSource)).delegate)).delegate;
+			if ([callViewController respondsToSelector:@selector(revealAudioRoutingDeviceListAnimated:)]){
+				[callViewController revealAudioRoutingDeviceListAnimated:YES];
+			}
 			return;
 		}
 		
-		if (!callCenter.routeController.pickedRoute.speaker){
-			[callCenter.routeController pickRoute:callCenter.routeController.routeForSpeakerEnable];
-		}else{
+		if (callCenter.routeController.pickedRoute.speaker){
 			[callCenter.routeController pickRoute:callCenter.routeController.routeForSpeakerDisable];
+		}else{
+			[callCenter.routeController pickRoute:callCenter.routeController.routeForSpeakerEnable];
 		}
 	}
 }
