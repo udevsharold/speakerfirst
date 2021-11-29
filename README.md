@@ -2,7 +2,7 @@
 Invert Phone or Facetime app's default "Audio" button behaviour to 
 
 - activates speaker on tap and;
-- activates menu long press
+- activates menu on long press
 
 in iOS if there are external auxiliary routes for audio call available.
 
